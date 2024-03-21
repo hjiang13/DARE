@@ -33,4 +33,4 @@ for i in range(0, 96):
 
 print(dictionary)
 with open(outputFile, "w") as outfile:
-    json.dump(output, outfile)
+    outfile.write("\n".join(json.dumps(i) for i in output))
