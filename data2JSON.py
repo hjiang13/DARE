@@ -9,13 +9,13 @@ csvFile = "hackerrank/errorRate_O0.csv"
 ##Classify SDC rate into 4 catogaries by 25%
 def getLabel(SDC_rate):
     if SDC_rate > 0.75:
-        return "4"
+        return 4
     elif SDC_rate > 0.5:
-        return "3"
+        return 3
     elif SDC_rate > 0.25:
-        return "2"
+        return 2
     else:
-        return "1"
+        return 1
 
 df = pandas.read_csv(csvFile)
 
