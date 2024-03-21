@@ -4,7 +4,10 @@ import json
 import pandas
 
 workPath  = "./"
-outputFile = "./test_resilience.json"
+testDataFile = "./test_resilience.jsonl"
+trainDataFile = "./train_resilience.jsonl"
+validDataFile = "./valid_resilience.jsonl"
+
 csvFile = "hackerrank/errorRate_O0.csv"
 ##Classify SDC rate into 4 catogaries by 25%
 def getLabel(SDC_rate):
@@ -17,10 +20,7 @@ def getLabel(SDC_rate):
     else:
         return 1
 
-df = pandas.read_csv(csvFile)
-
-output = []
-for i in range(0, 96):
+def getDic(i, df):
     dictionary = {}
     print(df['benmark'][i])
     codeFile = open(f"hackerrank/Benchmarks/{df['benmark'][i]}/{df['benmark'][i]}.cpp", 'r')
@@ -28,9 +28,24 @@ for i in range(0, 96):
     dictionary["code"] = codeFile.read()
     dictionary["label"] = codeLabel
     print(codeLabel)
-    output.append(dictionary)
+    return(dictionary)
+
+df = pandas.read_csv(csvFile)
+
+trainData = []
+testData = []
+validData = []
+for i in range(0, 70):
+    trainData.append(getDic(i, df))
+for i in range(70, 86):
+    testData.append(getDic(i, df))
+for i in range(86, 96):
+    validData.append(getDic(i, df))
 
 
-print(dictionary)
-with open(outputFile, "w") as outfile:
-    outfile.write("\n".join(json.dumps(i) for i in output))
+with open(trainDataFile, "w") as outfile:
+    outfile.write("\n".join(json.dumps(i) for i in trainData))
+with open(testDataFile, "w") as outfile:
+    outfile.write("\n".join(json.dumps(i) for i in testData))
+with open(validDataFile, "w") as outfile:
+    outfile.write("\n".join(json.dumps(i) for i in validData))
