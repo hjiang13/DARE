@@ -2,7 +2,7 @@
 import csv
 import json
 import pandas
-
+from sklearn.preprocessing import MinMaxScaler
 workPath  = "./"
 testDataFile = "./test_resilience.jsonl"
 trainDataFile = "./train_resilience.jsonl"
@@ -31,6 +31,16 @@ def getDic(i, df):
     return(dictionary)
 
 df = pandas.read_csv(csvFile)
+print(df)
+
+df_min_max_scaled = df.copy() 
+  
+# apply normalization techniques by Column 1 
+column = 'SDC'
+df_min_max_scaled[column] = (df_min_max_scaled[column] - df_min_max_scaled[column].min()) / (df_min_max_scaled[column].max() - df_min_max_scaled[column].min())     
+  
+# view normalized data 
+print(df_min_max_scaled) 
 
 trainData = []
 testData = []
